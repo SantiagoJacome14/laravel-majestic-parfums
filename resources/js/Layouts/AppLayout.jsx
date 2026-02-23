@@ -2,30 +2,81 @@ import { Link } from "@inertiajs/react";
 
 export default function AppLayout({ children }) {
   return (
-    <div style={{ minHeight: "100vh", background: "#fafafa" }}>
-      <header style={{ background: "#fff", borderBottom: "1px solid #eee" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "14px 16px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <Link href="/" style={{ textDecoration: "none", color: "#111", fontWeight: 900, fontSize: 18 }}>
-            Majestic Parfums
+    <div style={{ background: "#0b0b0b", minHeight: "100vh", color: "#fff" }}>
+      
+      {/* NAVBAR */}
+      <header style={{ borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
+        <div style={{
+          maxWidth: 1300,
+          margin: "0 auto",
+          padding: "16px 20px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between"
+        }}>
+          
+          {/* LOGO */}
+          <Link href="/" style={{
+            textDecoration: "none",
+            color: "#d4af37",
+            fontWeight: "800",
+            letterSpacing: 2,
+            fontSize: 20
+          }}>
+            MAJESTIC PARFUMS
           </Link>
 
-          <nav style={{ display: "flex", gap: 14, alignItems: "center" }}>
-            <Link href="/catalog">Catálogo</Link>
-            <Link href="/cart">Carrito</Link>
-            <Link href="/how-to-buy">Cómo comprar</Link>
+          {/* MENU */}
+          <nav style={{ display: "flex", gap: 26, fontSize: 14 }}>
+            <Link href="/catalog?tag=Árabe">ÁRABES</Link>
+            <Link href="/catalog?tag=Diseñador">DISEÑADOR</Link>
+            <Link href="/catalog?tag=Nicho">NICHO</Link>
+            <Link href="/catalog">NOVEDADES</Link>
           </nav>
+
+          {/* SEARCH */}
+          <input
+            placeholder="Buscar fragancias..."
+            style={{
+              padding: "8px 14px",
+              borderRadius: 30,
+              border: "1px solid rgba(255,255,255,0.2)",
+              background: "transparent",
+              color: "#fff",
+              width: 220
+            }}
+          />
+
         </div>
       </header>
 
-      <main style={{ maxWidth: 1200, margin: "0 auto", padding: "18px 16px" }}>
-        {children}
-      </main>
+      {/* CONTENT */}
+      <main>{children}</main>
 
-      <footer style={{ borderTop: "1px solid #eee", marginTop: 26, padding: 18, background: "#fff" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 16px", opacity: 0.7 }}>
-          © {new Date().getFullYear()} Majestic Parfums · 100% Original
-        </div>
-      </footer>
+      {/* WHATSAPP FLOAT */}
+      <a
+        href="https://wa.me/573183221806?text=Hola%20Majestic%20Parfums!%20Estoy%20interesado%20en%20sus%20fragancias.%20¿Podrían%20ayudarme%3F"
+        target="_blank"
+        style={{
+          position: "fixed",
+          bottom: 20,
+          right: 20,
+          background: "#25D366",
+          width: 60,
+          height: 60,
+          borderRadius: "50%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          color: "#fff",
+          fontSize: 28,
+          textDecoration: "none",
+          boxShadow: "0 10px 30px rgba(0,0,0,0.4)"
+        }}
+      >
+        💬
+      </a>
+
     </div>
   );
 }
