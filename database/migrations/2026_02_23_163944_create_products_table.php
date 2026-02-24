@@ -10,23 +10,48 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-{
-    Schema::create('products', function (Blueprint $table) {
-        $table->id();
-        $table->string('name');
-        $table->string('brand');
-        $table->string('slug')->unique();
-        $table->string('size')->nullable();
-        $table->string('concentration')->nullable();
-        $table->string('tag')->nullable();
-        $table->integer('price');
-        $table->integer('supplier_price')->nullable();
-        $table->string('image')->nullable();
-        $table->json('images')->nullable();
-        $table->integer('stock')->default(10);
-        $table->timestamps();
-    });
-}
+    {
+        Schema::create('products', function (Blueprint $table) {
+            $table->id();
+
+            // Relación con marcas
+            $table->foreignId('brand_id')
+                  ->constrained()
+                  ->cascadeOnDelete();
+
+            $table->string('name');
+            $table->string('slug')->unique();
+
+            // Clasificación
+            $table->enum('category', ['arabe', 'disenador', 'nicho'])->index();
+            $table->enum('gender', ['hombre', 'mujer', 'unisex'])->default('unisex')->index();
+
+            // Detalles
+            $table->string('size')->nullable();          // 100ml
+            $table->string('concentration')->nullable(); // EDP, EDT
+            $table->string('tag')->nullable();           // bestseller, nuevo
+
+            // Precios
+            $table->unsignedInteger('price');
+            $table->unsignedInteger('supplier_price')->nullable();
+
+            // Imágenes
+            $table->string('image')->nullable(); // principal
+            $table->json('images')->nullable();  // galería
+
+            // Inventario
+            $table->unsignedInteger('stock')->default(10);
+
+            // Estados
+            $table->boolean('is_new')->default(false);
+            $table->boolean('is_active')->default(true);
+
+            $table->timestamps();
+
+            // Evita duplicados por marca
+            $table->unique(['brand_id', 'name']);
+        });
+    }
 
     /**
      * Reverse the migrations.
