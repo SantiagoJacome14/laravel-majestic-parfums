@@ -1,0 +1,47 @@
+[
+  {
+    "brand": "Lattafa",
+    "name": "Asad",
+    "category": "arabe",
+    "gender": "hombre",
+    "size": "100ml",
+    "concentration": "EDP",
+    "tag": "Best seller",
+    "price": 120000,
+    "stock": 10,
+    "image": "asad.jpg",
+    "images": ["asad-1.jpg", "asad-2.jpg"],
+    "is_new": true,
+    "is_active": true
+  },
+  {
+    "brand": "Afnan",
+    "name": "9PM",
+    "category": "arabe",
+    "gender": "hombre",
+    "size": "100ml",
+    "concentration": "EDP",
+    "tag": "Dulce",
+    "price": 135000,
+    "stock": 8,
+    "image": "9pm.jpg",
+    "images": ["9pm-1.jpg"],
+    "is_new": false,
+    "is_active": true
+  },
+  {
+    "brand": "Maison Alhambra",
+    "name": "Kismet Angel",
+    "category": "arabe",
+    "gender": "unisex",
+    "size": "100ml",
+    "concentration": "EDP",
+    "tag": "Elegante",
+    "price": 150000,
+    "stock": 5,
+    "image": "kismet-angel.jpg",
+    "images": [],
+    "is_new": false,
+    "is_active": true
+  }
+]
