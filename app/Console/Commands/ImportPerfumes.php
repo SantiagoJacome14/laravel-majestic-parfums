@@ -31,12 +31,14 @@ class ImportPerfumes extends Command
 
         foreach ($items as $it) {
             $brandName = trim((string)($it['brand'] ?? ''));
-            $name = trim((string)($it['name'] ?? ''));
-            $category = $it['category'] ?? null; // arabe/disenador/nicho
-            $gender = $it['gender'] ?? 'unisex'; // hombre/mujer/unisex
+            $name      = trim((string)($it['name'] ?? ''));
 
-            if ($brandName === '' || $name === '' || !$category) {
-                $this->warn("Saltado (faltan campos): " . json_encode($it));
+            // Si no viene category, NO lo saltes: pon un default seguro
+            $category  = $it['category'] ?? 'arabe'; // arabe/disenador/nicho
+            $gender    = $it['gender'] ?? 'unisex';  // hombre/mujer/unisex
+
+            if ($brandName === '' || $name === '') {
+                $this->warn("Saltado (faltan campos): " . json_encode($it, JSON_UNESCAPED_UNICODE));
                 continue;
             }
 
@@ -51,20 +53,29 @@ class ImportPerfumes extends Command
 
             // Normaliza imágenes
             $images = $it['images'] ?? [];
-            if (!is_array($images)) $images = [];
+            if (!is_array($images)) {
+                $images = [];
+            }
 
+            /**
+             * 🔧 FIX CLAVE:
+             * Tu BD tiene UNIQUE(brand_id, name). Si haces updateOrCreate por slug,
+             * cuando llegue el mismo perfume (misma marca+nombre) con otro slug,
+             * intenta INSERT y revienta.
+             *
+             * Entonces usamos como "clave" (brand_id, name) para actualizar sin crash.
+             */
             Product::updateOrCreate(
-                ['slug' => $slug],
+                ['brand_id' => $brand->id, 'name' => $name],
                 [
-                    'brand_id' => $brand->id,
-                    'name' => $name,
+                    'slug' => $slug,
                     'category' => $category,
                     'gender' => $gender,
                     'size' => $it['size'] ?? null,
                     'concentration' => $it['concentration'] ?? null,
                     'tag' => $it['tag'] ?? null,
                     'price' => (int)($it['price'] ?? 0),
-                    'supplier_price' => isset($it['supplier_price']) ? (int)$it['supplier_price'] : null,
+                    'supplier_price' => isset($it['supplier_price']) ? (int)($it['supplier_price'] ?? 0) : null,
                     'image' => $it['image'] ?? null,
                     'images' => $images,
                     'stock' => (int)($it['stock'] ?? 0),
