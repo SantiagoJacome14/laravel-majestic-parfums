@@ -3,7 +3,7 @@ import { Link } from "@inertiajs/react";
 export default function Hero() {
   return (
     <div style={{
-      backgroundImage: "url('/images/hero.jpg')",
+      backgroundImage: "url('/images/perfumes/hero.jpg')",
       backgroundSize: "cover",
       backgroundPosition: "center",
       height: "80vh",
